@@ -2,30 +2,30 @@
 <html>
   <head>
     <style type='text/css'>
-      body{color:#ddd;background-color:#444;margin:0}
-      .wrap{display:flex;margin:auto;padding:0 2em}
+      body{color:#eee;background-color:#555;margin:0}
+      main{margin:auto;display:flex;max-width:60em;justify-content:center}
+      section{display:flex;flex-direction:column;margin:1em 0px}
+      :not(.limiter)>div{flex-basis:0;flex-grow:1;overflow-y:auto}
       #linenum,
       #parsed,
-      #editor{font-family:monospace;white-space:pre-wrap;flex:1;margin:1em 0;padding:0.5em;background-color:#333}
-      #linenum{text-align:right;padding:0.5em;max-width:fit-content;border:1px solid #444}
+      #editor{font-family:monospace;white-space:pre;padding:0.5em;background-color:#444}
+      #editor{background-color:#333;min-width:40em}
+      #linenum{text-align:right}
       /* syntax highlighting */
-      a.lnum,
-      .nt-cmt,
-      .nt-cml,
-      .nt-cmr{color:#8aa}
+      a.nt-lf,
+      .nt-cmt{color:#8aa}
       .nt-num,
       .nt-boo{color:#2ca}
       .nt-key{color:#dbf;}
-      .nt-nom{color:#fdd}
       .nt-err{color:#f00;text-decoration:underline}
     </style>
   </head>
   <body>
-    <div class='wrap'>
-      <div id='linenum'></div>
-      <div id='editor' contenteditable='true'></div>
-      <div id='parsed'></div>
-    </div>
+    <main>
+      <section> <div id='linenum'></div> </section>
+      <section class='limiter'> <div id='editor' contenteditable='true'></div> </section>
+      <section> <div id='parsed'></div> </section>
+    </main>
   </body>
   <script src='main.js'></script>
 </html>
