@@ -3,18 +3,20 @@
   <head>
     <script src="codemirror-5.65.0/lib/codemirror.js"></script>
     <link rel='stylesheet' href='codemirror-5.65.0/lib/codemirror.css'>
+    <link rel='stylesheet' href='codemirror-5.65.0/theme/nord.css'>
     <script src="codemirror-5.65.0/mode/javascript/javascript.js"></script>
     <style type='text/css'>
-      body{color:#eee;background-color:#555;margin:0}
+      body{color:#eee;background-color:#555;font-family:sans-serif}
+      a{color:#79f}
+      /* main{margin:4em} */
     </style>
   </head>
   <body>
     <main>
-      hello world
+      <h1>HDL editor for <a href='https://nand2tetris.org'>Nand2Tetris</a></h1>
+      <textarea id='ta'></textarea>
     </main>
   </body>
-  <script>
-    const cm = CodeMirror(document.body);
-    cm.doc.children[0].lines.map((_,i)=>console.log(cm.getLineTokens(i)))
-  </script>
+  <script src='simplemode.js'></script>
+  <script src='main.js'></script>
 </html>
