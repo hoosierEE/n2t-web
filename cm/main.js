@@ -27,7 +27,7 @@ CodeMirror.defineSimpleMode('simplemode', {
 function lineTokens(cm){
   // also cursor: https://discuss.codemirror.net/t/how-can-i-traverse-through-tokens/81/3
   let tk=cm.doc.children[0].lines.map((_,i)=>cm.getLineTokens(i)).map(x=>x.filter(y=>y.type))
-  // for(let i in tk) for(let o of tk[i]) o.line=i|0
+  // for(let i in L) for(let o of L[i]) o.index=i|0
   return tk
 }
 
@@ -120,19 +120,21 @@ function parse(tokens){// tokens => ast or parseError
 }
 
 function init(){
-  const code=`CHIP Foo {
+  const demo=`CHIP Foo {
   IN a,b,c[2];
   OUT out[2];
   PARTS:
-  Nand(a=true, b=false, out=x);
-  Nand(a=c[0], b=c[1], out=y);
-  And16(a[0..2]=c, b[2..15]=false, out[0]=x, out[1]=y, out[2..3]=out[0..1]);
+    Nand(a=true, b=false, out=x);
+    Nand(a=c[0], b=c[1], out=y);
+    And16(a[0..2]=c, b[2..15]=false, out[0]=x, out[1]=y, out[2..3]=out[0..1]);
 }`
-  const M=document.getElementById('ta');M.value=code
+  const M=document.getElementById('ta')
+  M.value=atob(location.hash.substr(1)) || demo
   const cm=CodeMirror.fromTextArea(M,{mode:'simplemode', lineNumbers:true, theme:'nord'}),
         tk=lineTokens(cm)
   window.hdl={cm, tk}
-  console.log(parse(tk))
+  // console.log(parse(tk))
   // for(let t of iterTokens(tk)){console.log(t)}
+  cm.on('change', _=>location.hash=(btoa(cm.getValue())))
 }
 window.addEventListener('load', init, false)
