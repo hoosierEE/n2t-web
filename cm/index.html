@@ -8,15 +8,26 @@
     <style type='text/css'>
       body{color:#eee;background-color:#555;font-family:sans-serif}
       a{color:#79f}
-      /* main{margin:4em} */
+      h1{text-align:center}
     </style>
   </head>
   <body>
+    <header>
+      <h1>HDL<em>online</em></h1>
+    </header>
     <main>
-      <h1><a href='https://nand2tetris.org'>Nand2Tetris</a> HDL Editor</h1>
       <textarea id='ta'></textarea>
     </main>
+    <footer>
+      <h2>Prototypes</h2><div id='prototypes'></div>
+      <h2>Resources</h2>
+      <ul>
+        <li><a href='https://nand2tetris.org'>Nand2Tetris</a></li>
+        <li><a href='https://phoenix.goucher.edu/~kelliher/f2015/cs220/hdlSurvivalGuide.pdf'>HDL Survival Guide</a></li>
+      </ul>
+    </footer>
   </body>
-  <script src='simplemode.js'></script>
+  <script src='cm-simple.js'></script>
   <script src='main.js'></script>
+  <script src='prototypes.js'></script>
 </html>
