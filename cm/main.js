@@ -35,7 +35,6 @@ function*iterTokens(t){for(let i in t)for(let tk of t[i])yield{...tk,line:+i}}
 function parse(tokens){// tokens => ast or parseError
   let i=0
   const T=[...iterTokens(tokens)].filter(x=>x.type!='comment')
-  // console.log(T)
 
   const peek=(t,v=null,n=0)=>{let ti=T[i+n];if(v && ti.string!=v)return false;return ti.type==t}
   const eat=(t,v=null)=>{
@@ -121,6 +120,17 @@ function parse(tokens){// tokens => ast or parseError
     console.error(window.hdl.cm.getLine(T[i-1].line))
   }
 }
+
+// function download(filename, text) {
+//   // https://stackoverflow.com/a/18197511/2037637
+//   const pom = document.createElement('a')
+//   pom.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(text))
+//   pom.setAttribute('download', filename)
+//   if (!document.createEvent) pom.click()
+//   const event = document.createEvent('MouseEvents')
+//   event.initEvent('click', true, true)
+//   pom.dispatchEvent(event)
+// }
 
 function init(){
   const demo=`CHIP Foo { // line comment
