@@ -23,13 +23,8 @@ CodeMirror.defineSimpleMode('simplemode', {
   meta:{dontIndentStates:['comment'], lineComment:'//'}
 });
 
-function lineTokens(cm){
-  // also cursor: https://discuss.codemirror.net/t/how-can-i-traverse-through-tokens/81/3
-  let tk=cm.doc.children[0].lines.map((_,i)=>cm.getLineTokens(i)).map(x=>x.filter(y=>y.type))
-  // for(let i in L) for(let o of L[i]) o.index=i|0
-  return tk
-}
-
+// also cursor: https://discuss.codemirror.net/t/how-can-i-traverse-through-tokens/81/3
+const lineTokens=c=>c.doc.children[0].lines.map((_,i)=>c.getLineTokens(i)).map(x=>x.filter(y=>y.type))
 function*iterTokens(t){for(let i in t)for(let tk of t[i])yield{...tk,line:+i}}
 
 function parse(tokens){// tokens => ast or parseError
@@ -42,6 +37,8 @@ function parse(tokens){// tokens => ast or parseError
     if(ti.type==t){if(v && ti.string!=v)throw new Error(`expected ${v}, got ${ti.string}`);return ti.string}
     throw new Error(`expected ${t}, got ${ti.string}`)
   }
+  const eatWhile=(d,f)=>{let s=[f()];while(peek(...d)){eat(...d);s.push(f())};return s}
+  const eatUntil=(d,f)=>{let s=[f()];while(!peek(...d))s.push(f());return s}
   const parseNum=()=>parseInt(eat('number'))
   const parseBool=()=>eat('atom')=='true'
 
@@ -53,9 +50,7 @@ function parse(tokens){// tokens => ast or parseError
 
   const parseIO=(io='OUT')=>{
     eat('keyword', io)
-    const names=[]
-    names.push(parseDecl())
-    while(peek('comma')){eat('comma');names.push(parseDecl())}
+    const names=eatWhile(['comma'],parseDecl)
     eat('semi')
     return names
   }
@@ -81,11 +76,7 @@ function parse(tokens){// tokens => ast or parseError
     return {lhs,rhs:parseSide(1)}
   }
 
-  const parseWires=()=>{
-    const params=[parseParam()]
-    while(peek('comma')){eat('comma');params.push(parseParam())}
-    return params
-  }
+  const parseWires=()=>eatWhile(['comma'], parseParam)
 
   const parsePart=()=>{
     const name=eat('variable')
@@ -93,23 +84,17 @@ function parse(tokens){// tokens => ast or parseError
     return {name,wires}
   }
 
-  const parseParts=()=>{
-    const parts=[]
-    parts.push(parsePart())
-    while(!peek('paren', '}')) parts.push(parsePart())
-    return parts
-  }
+  const parseParts=()=>eatUntil(['paren', '}'], parsePart)
 
   const parseChip=()=>{
     eat('keyword', 'CHIP')
-    const name=eat('variable')
+    let name=eat('variable'),ins,outs,parts
     eat('paren', '{')
-    let ins,outs,indone=0
-    if(peek('keyword', 'IN')) {ins=parseIO('IN');indone=1}
+    if(peek('keyword', 'IN')) ins=parseIO('IN')
     outs=parseIO()
-    if(0==indone && peek('keyword', 'IN')) ins=parseIO('IN')
+    if(peek('keyword', 'IN')) ins=parseIO('IN')
     eat('keyword', 'PARTS:')
-    const parts=parseParts()
+    parts=parseParts()
     eat('paren', '}')
     return {name,ins,outs,parts}
   }
@@ -118,38 +103,39 @@ function parse(tokens){// tokens => ast or parseError
   catch(parseError){
     console.error(parseError)
     console.error(window.hdl.cm.getLine(T[i-1].line))
+    return {name:'Error'}
   }
 }
 
-// function download(filename, text) {
-//   // https://stackoverflow.com/a/18197511/2037637
-//   const pom = document.createElement('a')
-//   pom.setAttribute('href', 'data:text/plain;charset=utf-8,'+encodeURIComponent(text))
-//   pom.setAttribute('download', filename)
-//   if (!document.createEvent) pom.click()
-//   const event = document.createEvent('MouseEvents')
-//   event.initEvent('click', true, true)
-//   pom.dispatchEvent(event)
-// }
-
 function init(){
-  const demo=`CHIP Foo { // line comment
+  const demo=`/* this is just a demo - replace with your code! */
+CHIP Demo { // line comment
   IN a,b,c[2];
   OUT out[2];
   PARTS:
   Nand(a=true, b=false, out=x);
   /* block comment */
   Nand(a=c[0], b=c[1], out=y);
-  And16(a[0..2]=c, b[2..15]=false, out[0]=x, out[1]=y, out[2..3]=out[0..1]);
-  And16(a=false, b=true);
+  And16(a[0..2]=c, b=true, out[0]=x, out[1]=y, out[2..3]=out[0..1]);
 }`
   const M=document.getElementById('ta')
   M.value=atob(location.hash.substr(1)) || demo
-  const cm=CodeMirror.fromTextArea(M,{mode:'simplemode', lineNumbers:true, theme:'nord'}),
+  const opts={mode:'simplemode',lineNumbers:true,theme:'nord'},
+        cm=CodeMirror.fromTextArea(M,opts),
         tk=lineTokens(cm)
-  window.hdl={cm, tk}
-  console.log(parse(tk))
-  // for(let t of iterTokens(tk)){console.log(t)}
-  cm.on('change', _=>location.hash=(btoa(cm.getValue())))
+  const changeFn=()=>{
+    const name=parse(lineTokens(cm)).name+'.hdl',
+          code=cm.getValue(),
+          blob=new Blob([code],{type:'text/plain'}),
+          dlink=document.getElementById('save')
+    dlink.download=name
+    dlink.innerHTML=`Download ${name}`
+    window.URL=window.URL || window.webkitURL
+    dlink.href=window.URL.createObjectURL(blob)
+    location.hash=btoa(code)
+  }
+  cm.on('change', changeFn)
+  changeFn()
+  window.hdl={cm,tk}
 }
-window.addEventListener('load', init, false)
+window.addEventListener('load',init,false)

@@ -1,6 +1,6 @@
 window.addEventListener('load', _=>{
-  const P=document.getElementById('prototypes'),
-        prototypes=`ALU(x= ,y= ,zx= ,nx= ,zy= ,ny= ,f= ,no= ,out= ,zr= ,ng= ); /* Hack ALU */
+  const P=document.getElementById('prototypes');
+  `ALU(x= ,y= ,zx= ,nx= ,zy= ,ny= ,f= ,no= ,out= ,zr= ,ng= ); /* Hack ALU */
 ARegister(in= ,load= ,out= ); /* Address register (built-in) */
 Add16(a= ,b= ,out= ); /* Adds up two 16-bit two's complement values */
 And(a= ,b= ,out= ); /* And gate */
