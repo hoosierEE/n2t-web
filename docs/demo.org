@@ -1,0 +1,23 @@
+1 0 1 1 0 1 0
+2 to the power:
+ 6  5  4 3 2 1 0
+64 32 16 8 4 2 1  powers of 2
+multiplied by each digit:
+ 1 0  1 1 0 1 0
+sum results:
+64+0+16+8+0+2+0 = 90
+
+523
+Algorithm:
+Biggest power of two which is <= 523? 512 (2^9)
+9 8 7 6 5 4 3 2 1 0  (indexes)
+1 ? ? ? ? ? ? ? ? ?  (512)
+523-512 = 11
+Biggest power of two <= 11? 8 (2^3)
+1 0 0 0 0 0 1 ? ? ?  (512, 8)
+11-8 = 3
+Biggest power of two <= 3? 2 (2^1)
+1 0 0 0 0 0 1 0 1 ?  (512, 8, 2)
+3-2 = 1
+Biggest power of two <= 1? 1 (2^0)
+1 0 0 0 0 0 1 0 1 1

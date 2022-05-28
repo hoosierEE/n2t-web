@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Engineering Computer Architecture</title>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/reveal.css"/>
+
+<link rel="stylesheet" href="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/theme/solarized.css" id="theme"/>
+
+<style>pre.src,pre.example{background-color:#e7e7e7;color:#383a42}</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Engineering Computer Architecture</h1><em>How computer hardware and software is made.</em><br><br><br>
+</section>
+<section>
+<section id="slide-org2d6b5f6">
+<h2 id="org2d6b5f6">01</h2>
+<p>
+Introduction
+</p>
+</section>
+<section id="slide-orga362152">
+<h3 id="orga362152">About Me</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">edu</th>
+<th scope="col" class="org-left">work</th>
+<th scope="col" class="org-left">fun</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">PhD IU (2024)</td>
+<td class="org-left">Luddy (2016-)</td>
+<td class="org-left">family, pets</td>
+</tr>
+
+<tr>
+<td class="org-left">BSEE IUPUI (2013)</td>
+<td class="org-left">Psychology (2014-2016)</td>
+<td class="org-left">travel, food</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">WSO2 (2013)</td>
+<td class="org-left">outdoors</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">Physics (2008-2013)</td>
+<td class="org-left">array languages</td>
+</tr>
+
+<tr>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">&#xa0;</td>
+<td class="org-left">music tech</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orgb7729c0">
+<h3 id="orgb7729c0">What we&rsquo;ll study (theory)</h3>
+<ul>
+<li>Boolean algebra</li>
+<li>number representation (decimal, binary)</li>
+<li>two&rsquo;s complement arithmetic</li>
+<li>coding languages: HDL, Hack, Python3</li>
+<li>test-driven design</li>
+
+</ul>
+
+</section>
+<section id="slide-org83f2ab3">
+<h3 id="org83f2ab3">What we&rsquo;ll study (practice)</h3>
+<ul>
+<li>convert numbers: binary &harr; decimal</li>
+<li>build a functional computer in a simulator</li>
+<li>use a hardware description language</li>
+<li>use an assembly language</li>
+<li>write an assembler in Python</li>
+
+</ul>
+
+</section>
+<section id="slide-orgd13d4a8">
+<h3 id="orgd13d4a8">Materials</h3>
+<ul>
+<li>slides and video</li>
+<li>textbook (free pdf)</li>
+<li>Canvas pages</li>
+<li>supplemental files (sometimes)</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgac28017">
+<h2 id="orgac28017">Resources</h2>
+</section>
+<section id="slide-orgac28017-split">
+<ul>
+<li>Canvas</li>
+<li>Autograder</li>
+
+</ul>
+
+</section>
+<section id="slide-orgb4c06f4">
+<h3 id="orgb4c06f4">Canvas</h3>
+<p>
+For <i>quizzes</i> and <i>exams</i>
+</p>
+
+<p>
+also:
+</p>
+<ul>
+<li>syllabus</li>
+<li>due dates</li>
+<li>announcements</li>
+<li>assignment info</li>
+<li>grades</li>
+
+</ul>
+
+</section>
+<section id="slide-org3f4a1ca">
+<h3 id="org3f4a1ca">Autograder</h3>
+<p>
+To turn in <i>homework projects</i>.
+</p>
+
+<p>
+NOTE: The autograder is <b>much slower</b> than your computer, so I recommend running tests locally and using the autograder for &#x2026;grading.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org3e25c88">
+<h2 id="org3e25c88">Software</h2>
+<p>
+Recommended: download and run on your personal computer
+</p>
+
+<p>
+<i>(&#x2026;or, if that does not work, use Luddy machines.)</i>
+</p>
+</section>
+<section id="slide-org1a5af9f">
+<h3 id="org1a5af9f">Nand2Tetris</h3>
+<ol>
+<li>install <a href="https://java.com/en/download/">Java</a> (if necessary)</li>
+<li>download <a href="https://drive.google.com/open?id=1xZzcMIUETv3u3sdpM_oTJSTetpVee3KZ">nand2tetris zip file</a></li>
+<li>extract zip and run the <b>HardwareSimulator</b> (DEMO)</li>
+
+</ol>
+
+</section>
+<section id="slide-orgec5b9b6">
+<h3 id="orgec5b9b6">Python3</h3>
+<ul>
+<li><a href="https://www.python.org/downloads/">python web site</a> (small download), or</li>
+<li><a href="https://www.anaconda.com/products/distribution">anaconda</a> (large download)</li>
+
+</ul>
+
+<p>
+anaconda is optional, but good
+</p>
+
+</section>
+<section id="slide-orgabf9590">
+<h3 id="orgabf9590">Text Editor</h3>
+<p>
+NOTE: <code>"quotes"</code> good, &ldquo;smart quotes&rdquo; bad
+</p>
+
+<p>
+Otherwise take your pick:
+</p>
+<ul>
+<li>popular and modern: <a href="https://code.visualstudio.com/">Visual Studio Code</a></li>
+<li>ancient but capable: <a href="https://www.gnu.org/software/emacs/">emacs</a> or <a href="https://www.vim.org/">vim</a></li>
+<li>basic: <a href="https://alexshroyer.com/hdl">hdl online</a></li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org79ad113">
+<h2 id="org79ad113">Canvas Demo</h2>
+<ul>
+<li>Syllabus</li>
+<li>Late work policy</li>
+<li>Q&amp;A Community</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/reveal.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/markdown/markdown.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/zoom/zoom.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown, RevealZoom, RevealNotes],
+slideNumber:"c/t", transition:"none", transitionSpeed:"fast", controlsTutorial:false, minScale:1.0, maxScale:1.5
+});
+
+</script>
+</body>
+</html>

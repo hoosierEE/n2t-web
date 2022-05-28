@@ -1,0 +1,15 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+
+ <g>
+  <title>Layer 1</title>
+  <g id="svg_5">
+   <g id="svg_4">
+    <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="34" id="svg_1" y="43.26906" x="16.52476" stroke-width="0" stroke="#000" fill="#000000">D</text>
+    <text xml:space="preserve" text-anchor="start" font-family="Noto Sans JP" font-size="22" id="svg_2" y="37.34608" x="37.52476" stroke-width="0" stroke="#000" fill="#000000">o</text>
+   </g>
+   <line fill="none" x1="49.36823" y1="32" x2="62.52599" y2="32" id="svg_3" stroke="#000"/>
+   <line fill="none" x1="1.47401" y1="34.63155" x2="18.57909" y2="34.63155" id="svg_8" stroke="#000"/>
+   <line fill="none" x1="1.47401" y1="29.36845" x2="18.57909" y2="29.36845" id="svg_10" stroke="#000"/>
+  </g>
+ </g>
+</svg>

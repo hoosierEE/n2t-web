@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Engineering Computer Architecture</title>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/reveal.css"/>
+
+<link rel="stylesheet" href="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/theme/solarized.css" id="theme"/>
+
+
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Engineering Computer Architecture</h1><em>How computer hardware and software is made.</em><br><br><br>
+</section>
+
+<section>
+<section id="slide-org86db4ae">
+<h2 id="org86db4ae">03</h2>
+<p>
+Hardware Description Language (HDL)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org6923745">
+<h2 id="org6923745">HDL is a computer language</h2>
+<ul>
+<li>syntax</li>
+<li>semantics</li>
+<li>used by a Hardware Simulator</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgd61a963">
+<h2 id="orgd61a963">HDL describes hardware connections</h2>
+<ul>
+<li>A connects to B</li>
+<li>B connects to C</li>
+<li>C is an input to D</li>
+<li>etc.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgc3688e7">
+<h2 id="orgc3688e7">HardwareSimulator:</h2>
+<ul>
+<li>connects components</li>
+<li>provides inputs</li>
+<li>and displays outputs</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orge9bb41d">
+<h2 id="orge9bb41d">Predefined Parts</h2>
+<p>
+<code>Nand</code> is predefined. You build other parts from Nand, then you can use those new parts to build more complex parts, and on and on.
+</p>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-right" />
+
+<col  class="org-right" />
+
+<col  class="org-right" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-right">x</th>
+<th scope="col" class="org-right">y</th>
+<th scope="col" class="org-right">Nand</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+<td class="org-right">1</td>
+</tr>
+
+<tr>
+<td class="org-right">1</td>
+<td class="org-right">1</td>
+<td class="org-right">0</td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section>
+<section id="slide-org72bf986">
+<h2 id="org72bf986">Example</h2>
+<p>
+a Xor b = (a Nand (a Nand b)) Nand (b Nand (a Nand b))
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orgf6cb0ca">
+<h2 id="orgf6cb0ca">HDL implementation</h2>
+<div class="org-src-container">
+
+<pre  class="src src-nand2tetris"   ><code trim><span style="color: #859900; font-weight: bold;">CHIP</span> <span style="color: #b58900; font-style: italic;">Xor</span> {
+    <span style="color: #268bd2;">IN</span> a,b;
+    <span style="color: #268bd2;">OUT</span> out;
+    <span style="color: #268bd2;">PARTS</span>:
+        <span style="color: #268bd2;">Nand</span>(<span style="color: #6c71c4; font-weight: bold;">a</span>=a, <span style="color: #6c71c4; font-weight: bold;">b</span>=b, <span style="color: #6c71c4; font-weight: bold;">out</span>=wire1);
+        <span style="color: #268bd2;">Nand</span>(<span style="color: #6c71c4; font-weight: bold;">a</span>=a, <span style="color: #6c71c4; font-weight: bold;">b</span>=wire1, <span style="color: #6c71c4; font-weight: bold;">out</span>=wa);
+        <span style="color: #268bd2;">Nand</span>(<span style="color: #6c71c4; font-weight: bold;">a</span>=b, <span style="color: #6c71c4; font-weight: bold;">b</span>=wire1, <span style="color: #6c71c4; font-weight: bold;">out</span>=wb);
+        <span style="color: #268bd2;">Nand</span>(<span style="color: #6c71c4; font-weight: bold;">a</span>=wa, <span style="color: #6c71c4; font-weight: bold;">b</span>=wb, <span style="color: #6c71c4; font-weight: bold;">out</span>=out);
+}
+</code></pre>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/reveal.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/markdown/markdown.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/zoom/zoom.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown, RevealZoom, RevealNotes],
+slideNumber:"c/t", transition:"none", transitionSpeed:"fast", controlsTutorial:false, minScale:1.0, maxScale:1.5
+});
+
+</script>
+</body>
+</html>

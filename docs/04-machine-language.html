@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Engineering Computer Architecture</title>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/reveal.css"/>
+
+<link rel="stylesheet" href="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/theme/solarized.css" id="theme"/>
+
+
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Engineering Computer Architecture</h1><em>How computer hardware and software is made.</em><br><br><br>
+</section>
+<section>
+<section id="slide-orgd23fc64">
+<h2 id="orgd23fc64">04</h2>
+<p>
+Machine Language
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org81dc980">
+<h2 id="org81dc980">Why?</h2>
+<p>
+So a fixed hardware can run different programs.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org22b1bd5">
+<h2 id="org22b1bd5">How?</h2>
+<p>
+Stored program concept:
+</p>
+
+<ul>
+<li>load a program into memory</li>
+<li>execute the program instructions</li>
+<li>programs are just data!</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgf68addb">
+<h2 id="orgf68addb">Stored&#x2026; Where?</h2>
+<p>
+In <i>registers</i>
+</p>
+
+<ul>
+<li>a few registers accessed by name directly
+R1, RB, etc.</li>
+<li>many more, accessed by memory address
+RAM[14501], RAM[0], etc.</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org4f3f503">
+<h2 id="org4f3f503">Register Types</h2>
+<dl>
+<dt>data register</dt><dd>holds values for computing, results</dd>
+<dt>address register</dt><dd>tells computer where to look for data or instructions</dd>
+<dt>instruction register</dt><dd>tells computer what action to perform (add, subtract, load, etc.)</dd>
+
+</dl>
+</section>
+</section>
+<section>
+<section id="slide-orge77aa12">
+<h2 id="orge77aa12">Register Characteristics</h2>
+<ul>
+<li>size: 2^n bits (16, 32, 64)</li>
+<li>homogeneous: same size throughout system</li>
+
+</ul>
+
+<p>
+(usually)
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org9c35214">
+<h2 id="org9c35214">Typical Operations</h2>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">example</th>
+<th scope="col" class="org-left">explanation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">load R3, 73</td>
+<td class="org-left">R3 gets 73</td>
+</tr>
+
+<tr>
+<td class="org-left">add R1, R2</td>
+<td class="org-left">R1 gets R1+R2</td>
+</tr>
+
+<tr>
+<td class="org-left">add R1, M[137]</td>
+<td class="org-left">R1 gets R1 + value at memory address 137</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+This example is pseudocode, similar to <a href="http://www.cburch.com/books/arm/">ARM assembly language</a>. This class uses a different language, called Hack assembly.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-orge3bf99c">
+<h2 id="orge3bf99c">Control Flow</h2>
+<ul>
+<li>default: linear flow of instructions
+[1,2,3,4,&#x2026;]</li>
+<li>jump: non-linear flow
+[1,2,99,100,40,&#x2026;]</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org0031640">
+<h2 id="org0031640">Labels</h2>
+<p>
+A named position in the code is a <i>label</i>.
+</p>
+
+<p>
+Labels are easier to remember than the instruction <i>number</i>.
+When you add instructions, you don&rsquo;t need to change the label.
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org47a995e">
+<h2 id="org47a995e">Jumps</h2>
+<ul>
+<li>unconditional: always do the jump</li>
+<li>conditional: only do the jump if <code>condition</code> is true</li>
+
+</ul>
+</section>
+<section id="slide-org3edf3a9">
+<h3 id="org3edf3a9">Unconditional Jump Pseudocode</h3>
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim><span style="color: #8a3b3c; font-weight: bold;">13</span> <span style="font-weight: bold;">add</span> R1,<span style="color: #8a3b3c; font-weight: bold;">1</span>
+<span style="color: #8a3b3c; font-weight: bold;">14</span> <span style="font-weight: bold;">goto</span> <span style="color: #8a3b3c; font-weight: bold;">13</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org921fd06">
+<h3 id="org921fd06">Unconditional Jump Pseudocode (with labels)</h3>
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim>(LOOP)
+   <span style="font-weight: bold;">add</span> R1,<span style="color: #8a3b3c; font-weight: bold;">1</span>
+   <span style="font-weight: bold;">goto</span> LOOP
+</code></pre>
+</div>
+
+<p>
+Labels make code easier to read and modify.
+</p>
+
+</section>
+<section id="slide-orgcd70a89">
+<h3 id="orgcd70a89">Conditional Jump</h3>
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim>   <span style="font-weight: bold;">add</span> R1,R2
+   <span style="font-weight: bold;">jeq</span> R1,COND <span style="color: #556b2f;">// </span><span style="color: #556b2f;">jump to COND if R1 is equal to zero</span>
+   <span style="font-weight: bold;">sub</span> R1,<span style="color: #8a3b3c; font-weight: bold;">1</span> <span style="color: #556b2f;">// </span><span style="color: #556b2f;">this executes if R1 was not equal to zero</span>
+(COND)
+  <span style="color: #556b2f;">// </span><span style="color: #556b2f;">more code</span>
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org68607dd">
+<h2 id="org68607dd">Assembly vs. Machine Code</h2>
+<dl>
+<dt>assembly code</dt><dd>mnemonic, for humans</dd>
+<dt>machine code</dt><dd>numeric, for computers</dd>
+
+</dl>
+
+<p>
+In Project 6, you will write a program to translate assembly into machine code.
+</p>
+</section>
+</section>
+</div>
+</div>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/reveal.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/markdown/markdown.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/zoom/zoom.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown, RevealZoom, RevealNotes],
+slideNumber:"c/t", transition:"none", transitionSpeed:"fast", controlsTutorial:false, minScale:1.0, maxScale:1.5
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+#+SETUPFILE: ~/org/pres.org
+#+REVEAL_THEME: solarized
+#+TITLE:Engineering Computer Architecture
+#+SUBTITLE:How computer hardware and software is made.
+* 04
+Machine Language
+* Why?
+So a fixed hardware can run different programs.
+* How?
+Stored program concept:
+
+- load a program into memory
+- execute the program instructions
+- programs are just data!
+* Stored... Where?
+In /registers/
+
+- a few registers accessed by name directly
+  R1, RB, etc.
+- many more, accessed by memory address
+  RAM[14501], RAM[0], etc.
+* Register Types
+- data register :: holds values for computing, results
+- address register :: tells computer where to look for data or instructions
+- instruction register :: tells computer what action to perform (add, subtract, load, etc.)
+* Register Characteristics
+- size: 2^n bits (16, 32, 64)
+- homogeneous: same size throughout system
+
+(usually)
+* Typical Operations
+| example        | explanation                              |
+|----------------+------------------------------------------|
+| load R3, 73    | R3 gets 73                               |
+| add R1, R2     | R1 gets R1+R2                            |
+| add R1, M[137] | R1 gets R1 + value at memory address 137 |
+
+This example is pseudocode, similar to [[http://www.cburch.com/books/arm/][ARM assembly language]]. This class uses a different language, called Hack assembly.
+* Control Flow
+- default: linear flow of instructions
+  [1,2,3,4,...]
+- jump: non-linear flow
+  [1,2,99,100,40,...]
+* Labels
+A named position in the code is a /label/.
+
+Labels are easier to remember than the instruction /number/.
+When you add instructions, you don't need to change the label.
+* Jumps
+- unconditional: always do the jump
+- conditional: only do the jump if ~condition~ is true
+** Unconditional Jump Pseudocode
+#+begin_src asm
+13 add R1,1
+14 goto 13
+#+end_src
+
+** Unconditional Jump Pseudocode (with labels)
+#+begin_src asm
+(LOOP)
+   add R1,1
+   goto LOOP
+#+end_src
+
+Labels make code easier to read and modify.
+
+** Conditional Jump
+#+begin_src asm
+   add R1,R2
+   jeq R1,COND // jump to COND if R1 is equal to zero
+   sub R1,1 // this executes if R1 was not equal to zero
+(COND)
+  // more code
+#+end_src
+* Assembly vs. Machine Code
+- assembly code :: mnemonic, for humans
+- machine code :: numeric, for computers
+
+In Project 6, you will write a program to translate assembly into machine code.

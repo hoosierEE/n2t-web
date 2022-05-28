@@ -1,0 +1,81 @@
+#+SETUPFILE: ~/org/pres.org
+#+REVEAL_THEME: solarized
+#+TITLE:Engineering Computer Architecture
+#+SUBTITLE:How computer hardware and software is made.
+* 01
+Introduction
+** About Me
+| edu               | work                   | fun             |
+|-------------------+------------------------+-----------------|
+| PhD IU (2024)     | Luddy (2016-)          | family, pets    |
+| BSEE IUPUI (2013) | Psychology (2014-2016) | travel, food    |
+|                   | WSO2 (2013)            | outdoors        |
+|                   | Physics (2008-2013)    | array languages |
+|                   |                        | music tech      |
+
+** What we'll study (theory)
+- Boolean algebra
+- number representation (decimal, binary)
+- two's complement arithmetic
+- coding languages: HDL, Hack, Python3
+- test-driven design
+
+** What we'll study (practice)
+- convert numbers: binary \leftrightarrow decimal
+- build a functional computer in a simulator
+- use a hardware description language
+- use an assembly language
+- write an assembler in Python
+
+** Materials
+- slides and video
+- textbook (free pdf)
+- Canvas pages
+- supplemental files (sometimes)
+
+* Resources
+#+REVEAL: split
+- Canvas
+- Autograder
+
+** Canvas
+For /quizzes/ and /exams/
+
+also:
+- syllabus
+- due dates
+- announcements
+- assignment info
+- grades
+
+** Autograder
+To turn in /homework projects/.
+
+NOTE: The autograder is *much slower* than your computer, so I recommend running tests locally and using the autograder for ...grading.
+
+* Software
+Recommended: download and run on your personal computer
+
+/(...or, if that does not work, use Luddy machines.)/
+** Nand2Tetris
+1. install [[https://java.com/en/download/][Java]] (if necessary)
+2. download [[https://drive.google.com/open?id=1xZzcMIUETv3u3sdpM_oTJSTetpVee3KZ][nand2tetris zip file]]
+3. extract zip and run the *HardwareSimulator* (DEMO)
+
+** Python3
+- [[https://www.python.org/downloads/][python web site]] (small download), or
+- [[https://www.anaconda.com/products/distribution][anaconda]] (large download)
+
+anaconda is optional, but good
+
+** Text Editor
+NOTE: ~"quotes"~ good, "smart quotes" bad
+
+Otherwise take your pick:
+- popular and modern: [[https://code.visualstudio.com/][Visual Studio Code]]
+- ancient but capable: [[https://www.gnu.org/software/emacs/][emacs]] or [[https://www.vim.org/][vim]]
+- basic: [[https://alexshroyer.com/hdl][hdl online]]
+* Canvas Demo
+- Syllabus
+- Late work policy
+- Q&A Community

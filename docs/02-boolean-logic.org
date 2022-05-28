@@ -1,0 +1,141 @@
+#+SETUPFILE: ~/org/pres.org
+#+REVEAL_THEME: solarized
+#+TITLE:Engineering Computer Architecture
+#+SUBTITLE:How computer hardware and software is made.
+# #+REVEAL_HTML: <div style="display:flex"><div style="width:50vw">
+# column 1
+# #+REVEAL_HTML: </div><div style="width:50vw">
+# column 2
+# #+REVEAL_HTML: </div></div>
+* 02
+Boolean Logic
+* Boolean Values
+must be one of two options
+
++------+-------+
+| true | false |
++------+-------+
+| on   | off   |
++------+-------+
+| yes  | no    |
++------+-------+
+| 1    | 0     |
++------+-------+
+
+* Boolean Operations
+#+REVEAL: split
+#+REVEAL_HTML: <div style="display:flex"><div style="width:30vw">
+x And y
+| x | y | x∧y |
+|---+---+-----|
+| 0 | 0 |   0 |
+| 0 | 1 |   0 |
+| 1 | 0 |   0 |
+| 1 | 1 |   1 |
+#+REVEAL_HTML: </div><div style="width:30vw">
+x Or y
+| x | y | x∨y |
+|---+---+-----|
+| 0 | 0 |   0 |
+| 0 | 1 |   1 |
+| 1 | 0 |   1 |
+| 1 | 1 |   1 |
+#+REVEAL_HTML: </div><div style="width:30vw">
+Not x
+| x | ¬x |
+|---+----|
+| 0 |  1 |
+| 1 |  0 |
+#+REVEAL_HTML: </div></div>
+
+#+REVEAL: split
+Alternative notation:
+| x And y | x Or y | Not x |
+|---------+--------+-------|
+| =xy=    | =x+y=  | =~x=  |
+
+=xy= is sometimes written as =x*y=
+* Boolean Expressions
+Not (0 Or (1 And 1)) =
+
+Not (0 Or 1) =
+
+Not (1) =
+
+0
+* Boolean Functions
+** formula
+f(x,y,z) = (x And y) Or (Not(x) And z)
+
+** truth table (incomplete)
+f(x,y,z) = (x And y) Or (Not(x) And z)
+#+REVEAL_HTML: <div style="font-size:0.5em">
+| x | y | z |   | f |
+|---+---+---+---+---|
+| 0 | 0 | 0 |   |   |
+| 0 | 0 | 1 |   | 1 |
+| 0 | 1 | 0 |   |   |
+| 0 | 1 | 1 |   |   |
+| 1 | 0 | 0 |   |   |
+| 1 | 0 | 1 |   |   |
+| 1 | 1 | 0 |   |   |
+| 1 | 1 | 1 |   |   |
+#+REVEAL_HTML: </div>
+
+#+REVEAL: split
+(demonstration: fill in the blanks)
+
+#+REVEAL: split
+f(x,y,z) = (x And y) Or (Not(x) And z)
+
+#+REVEAL_HTML: <div style="font-size:0.5em">
+| x | y | z |   | f |
+|---+---+---+---+---|
+| 0 | 0 | 0 |   | 0 |
+| 0 | 0 | 1 |   | 1 |
+| 0 | 1 | 0 |   | 0 |
+| 0 | 1 | 1 |   | 1 |
+| 1 | 0 | 0 |   | 0 |
+| 1 | 0 | 1 |   | 0 |
+| 1 | 1 | 0 |   | 1 |
+| 1 | 1 | 1 |   | 1 |
+#+REVEAL_HTML: </div>
+* Boolean Identities
+#+REVEAL_HTML: <div style="font-size:0.5em">
+| example                                   | identity     |
+|-------------------------------------------+--------------|
+| (x And y) = (y And x)                     | commutative  |
+| (x Or y) = (y Or x)                       | commutative  |
+| (x And (y And z)) = ((x And y) And z)     | associative  |
+| (x Or (y Or z)) = ((x Or y) Or z)         | associative  |
+| (x And (y Or z)) = (x And y) Or (x And z) | distributive |
+| (x Or (y And z)) = (x Or y) And (x Or z)  | distributive |
+| Not(x And y) = Not(x) Or Not(y)           | De Morgan's  |
+| Not(x Or y) = Not(x) And Not(y)           | De Morgan's  |
+#+REVEAL_HTML: </div>
+* Boolean Algebra
+#+REVEAL_HTML: <div style="font-size:0.5em">
+#+REVEAL_HTML: <div style="display:flex"><div style="width:50vw">
+Not(Not(x) And Not(x Or y)) =
+
+Not(Not(x) And (Not(x) And Not(y))) =
+
+Not((Not(x) And Not(x)) And Not(y)) =
+
+Not(Not(x) And Not(y)) =
+
+Not(Not(x)) Or Not(Not(y)) =
+
+x Or y
+#+REVEAL_HTML: </div><div style="width:50vw">
+ (De Morgan)
+
+ (associative)
+
+ (idempotence)
+
+ (De Morgan)
+
+ (double negation)
+#+REVEAL_HTML: </div></div>
+#+REVEAL_HTML: </div>

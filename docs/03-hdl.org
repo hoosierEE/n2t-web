@@ -1,0 +1,42 @@
+#+SETUPFILE: ~/org/pres.org
+#+REVEAL_THEME: solarized
+#+TITLE:Engineering Computer Architecture
+#+SUBTITLE:How computer hardware and software is made.
+
+* 03
+Hardware Description Language (HDL)
+* HDL is a computer language
+- syntax
+- semantics
+- used by a Hardware Simulator
+* HDL describes hardware connections
+- A connects to B
+- B connects to C
+- C is an input to D
+- etc.
+* HardwareSimulator:
+- connects components
+- provides inputs
+- and displays outputs
+* Predefined Parts
+~Nand~ is predefined. You build other parts from Nand, then you can use those new parts to build more complex parts, and on and on.
+| x | y | Nand |
+|---+---+------|
+| 0 | 0 |    1 |
+| 0 | 1 |    1 |
+| 1 | 0 |    1 |
+| 1 | 1 |    0 |
+* Example
+a Xor b = (a Nand (a Nand b)) Nand (b Nand (a Nand b))
+* HDL implementation
+#+begin_src nand2tetris
+CHIP Xor {
+    IN a,b;
+    OUT out;
+    PARTS:
+        Nand(a=a, b=b, out=wire1);
+        Nand(a=a, b=wire1, out=wa);
+        Nand(a=b, b=wire1, out=wb);
+        Nand(a=wa, b=wb, out=out);
+}
+#+end_src
