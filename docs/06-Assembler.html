@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Engineering Computer Architecture</title>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/reveal.css"/>
+
+<link rel="stylesheet" href="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/theme/solarized.css" id="theme"/>
+
+
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Engineering Computer Architecture</h1><em>How computer hardware and software is made.</em><br><br><br>
+</section>
+<section>
+<section id="slide-orgbd1d699">
+<h2 id="orgbd1d699">06</h2>
+<p>
+Hack Assembler
+</p>
+</section>
+</section>
+<section>
+<section id="slide-org3c522fd">
+<h2 id="org3c522fd">Big Picture</h2>
+<ul>
+<li>decompose the problem into smaller parts</li>
+<li><i>parse</i> text into data</li>
+<li><i>generate</i> code</li>
+
+</ul>
+</section>
+<section id="slide-org324ee0f">
+<h3 id="org324ee0f">Decomposing the Problem</h3>
+<ol>
+<li>ignore spaces and comments</li>
+<li>C instructions</li>
+<li>numeric A instructions</li>
+<li>built-in symbols</li>
+<li>user-defined symbols (labels and variables)</li>
+
+</ol>
+</section>
+<section id="slide-org7b10606">
+<h3 id="org7b10606">Parsing Text</h3>
+<p>
+Parsing means to recognize the meaning of specific sequences of characters.
+</p>
+
+</section>
+<section id="slide-org77367a3">
+<h3 id="org77367a3">Parsing English</h3>
+<pre class="example">
+The cat hunts the laser pointer.
+AAAsNNNsVVVVVsAAAsaaaaasNNNNNNNp
+</pre>
+
+
+<ul>
+<li><code>A</code> article</li>
+<li><code>s</code> space</li>
+<li><code>N</code> noun</li>
+<li><code>V</code> verb</li>
+<li><code>a</code> adjective</li>
+<li><code>p</code> punctuation</li>
+
+</ul>
+
+</section>
+<section id="slide-org10283cd">
+<h3 id="org10283cd">Parsing Hack Assembly</h3>
+<pre class="example">
+A=M+1
+DdCCC
+</pre>
+
+
+<ul>
+<li><code>D</code> destination</li>
+<li><code>d</code> destination punctuation</li>
+<li><code>C</code> comp</li>
+
+</ul>
+</section>
+<section id="slide-orge0e8a7f">
+<h3 id="orge0e8a7f">Parsing Hack Assembly</h3>
+<pre class="example">
+!D;JMP
+CCjJJJ
+</pre>
+
+
+<ul>
+<li><code>C</code> comp</li>
+<li><code>j</code> jump punctuation</li>
+<li><code>J</code> jump</li>
+
+</ul>
+
+</section>
+<section id="slide-orgbedb065">
+<h3 id="orgbedb065">Parsing Hack Assembly</h3>
+<pre class="example">
+D=M+1;JEQ
+DdCCCjJJJ
+</pre>
+
+
+<ul>
+<li><code>D</code> destination</li>
+<li><code>d</code> destination punctuation</li>
+<li><code>C</code> comp</li>
+<li><code>j</code> jump punctuation</li>
+<li><code>J</code> jump</li>
+
+</ul>
+
+</section>
+<section id="slide-org8cddbaf">
+<h3 id="org8cddbaf">Key Parsing Concept</h3>
+<p>
+Match the <b>largest</b> possible token (&ldquo;greedy&rdquo; matching)
+</p>
+
+<p>
+See also: regular expressions
+</p>
+</section>
+<section id="slide-org82fcc5d">
+<h3 id="org82fcc5d">Implementation Ideas</h3>
+<ul>
+<li>split text at delimiters</li>
+<li>recognize token types based on position</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgcd95160">
+<h2 id="orgcd95160">Hack Assembly Code</h2>
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim><span style="color: #96A7A9; font-style: italic;">// </span><span style="color: #96A7A9; font-style: italic;">Computes R0 = 2 + 3  (R0 refers to RAM[0])</span>
+
+@<span style="color: #6c71c4; font-weight: bold;">2</span>
+<span style="color: #b58900;">D=A</span>
+@<span style="color: #6c71c4; font-weight: bold;">3</span>
+<span style="color: #b58900;">D=D+A</span>
+@<span style="color: #6c71c4; font-weight: bold;">0</span>
+<span style="color: #b58900;">M=D</span>
+</code></pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org2e7d2e3">
+<h2 id="org2e7d2e3">Assembly Syntax Overview</h2>
+<ul>
+<li>A instruction (opcode <code>0</code>)</li>
+<li>C instruction (opcode <code>1</code>, but use <code>111</code>)</li>
+<li>labels</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-orgadc4e4c">
+<h2 id="orgadc4e4c">C instruction parts</h2>
+<ul>
+<li>comp</li>
+<li>dest (optional)</li>
+<li>jump (optional)</li>
+
+</ul>
+
+</section>
+<section id="slide-orgadc4e4c-split">
+<p>
+NOTE: even though dest and jump are optional, they still appear in the output (like <code>000</code>)
+</p>
+</section>
+<section id="slide-org0646746">
+<h3 id="org0646746">C instruction hints</h3>
+<p>
+First, split the C instruction into its separate parts:
+<code>AD=M+1;JLT</code> &rarr; <code>dest: AD</code>, <code>comp: M+1</code>, <code>jump: JLT</code>
+</p>
+
+<p>
+Then, look up the parts from their respective tables (in lecture slides)
+</p>
+
+</section>
+<section id="slide-org27c4757">
+<h3 id="org27c4757">C instruction hints</h3>
+<p>
+How will you <i>split</i> the C instruction into <code>comp</code>, <code>dest</code>, <code>jump</code>?
+</p>
+<ul>
+<li>what character must be present when there is a <code>jump</code>?</li>
+<li>what character must be present when there is a <code>dest</code>?</li>
+<li>use <code>str.split</code> and list indexing (<code>lst[-1]</code>)</li>
+<li>or use destructuring assignment (<code>a,b = two_element_list</code>)</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org11e4522">
+<h2 id="org11e4522">A instructions</h2>
+<ul>
+<li><code>@</code> followed by <code>value</code></li>
+<li><code>value</code> can be either:
+<ul>
+<li>a numeric literal</li>
+<li>a symbol</li>
+
+</ul></li>
+
+</ul>
+</section>
+<section id="slide-org89c56c1">
+<h3 id="org89c56c1">numeric A instruction</h3>
+<p>
+Can be directly converted to 16-bit binary
+</p>
+</section>
+<section id="slide-orgb115f82">
+<h3 id="orgb115f82">symbolic A instruction</h3>
+<p>
+Look up its value from a symbol table, then convert to binary
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4667457">
+<h2 id="org4667457">Symbols</h2>
+<p>
+can be either:
+</p>
+<ul>
+<li>labels</li>
+<li>variables</li>
+
+</ul>
+
+</section>
+<section id="slide-orgebc3bb3">
+<h3 id="orgebc3bb3">Symbol Table</h3>
+<p>
+Hint: use a <code>dict</code> to store symbols with their value
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-right" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">symbol</th>
+<th scope="col" class="org-right">value</th>
+<th scope="col" class="org-left">meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">SCREEN</td>
+<td class="org-right">16384</td>
+<td class="org-left">RAM address</td>
+</tr>
+
+<tr>
+<td class="org-left">R3</td>
+<td class="org-right">3</td>
+<td class="org-left">RAM address</td>
+</tr>
+
+<tr>
+<td class="org-left">LOOP</td>
+<td class="org-right">16</td>
+<td class="org-left">ROM address</td>
+</tr>
+
+<tr>
+<td class="org-left">sum</td>
+<td class="org-right">16</td>
+<td class="org-left">RAM address</td>
+</tr>
+
+<tr>
+<td class="org-left">END</td>
+<td class="org-right">87</td>
+<td class="org-left">ROM address</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="slide-orgbe12782">
+<h3 id="orgbe12782">Symbol Table</h3>
+<p>
+Key idea:
+</p>
+<ol>
+<li>initialize with built-in symbols (R0, R1, SCREEN, &#x2026;)</li>
+<li>add labels from assembly file</li>
+<li>add variables from assembly file</li>
+
+</ol>
+</section>
+<section id="slide-org3a1473e">
+<h3 id="org3a1473e">Two-Pass Assembler</h3>
+<p>
+After initializing the symbol table:
+</p>
+<ol>
+<li>scan each line of the file, looking for labels
+<ul>
+<li>add the label to the symbol table</li>
+<li>its value is the address of the next <b>instruction</b></li>
+
+</ul></li>
+<li>scan again, looking for variables
+<ul>
+<li>when you find a new variable, add it to the table</li>
+<li>the first variable&rsquo;s value is 16, next is 17, then 18, 19, &#x2026;</li>
+<li>if you see a variable <i>again</i> ignore it</li>
+
+</ul></li>
+
+</ol>
+</section>
+</section>
+<section>
+<section id="slide-orgdd2e82e">
+<h2 id="orgdd2e82e">Code Generation</h2>
+<ul>
+<li>translate C instructions into 16-bit binary (<code>111</code> followed by 13 bits)</li>
+<li>translate A instructions into 16-bit binary</li>
+<li>the value of the A instruction is <code>0</code> followed by 15 bits of <code>value</code>
+(<code>value</code> is what you stored in the symbol table earlier)</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/dist/reveal.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/markdown/markdown.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/zoom/zoom.js"></script>
+<script src="file:///Users/ashroyer-admin/repo/reveal.js-master/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown, RevealZoom, RevealNotes],
+slideNumber:"c/t", transition:"none", transitionSpeed:"fast", controlsTutorial:false, minScale:1.0, maxScale:1.5
+});
+
+</script>
+</body>
+</html>

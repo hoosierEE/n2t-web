@@ -1,0 +1,141 @@
+#+SETUPFILE: ~/org/pres.org
+#+REVEAL_THEME: solarized
+#+TITLE:Engineering Computer Architecture
+#+SUBTITLE:How computer hardware and software is made.
+* 06
+Hack Assembler
+* Big Picture
+- decompose the problem into smaller parts
+- /parse/ text into data
+- /generate/ code
+** Decomposing the Problem
+1. ignore spaces and comments
+2. C instructions
+3. numeric A instructions
+4. built-in symbols
+5. user-defined symbols (labels and variables)
+** Parsing Text
+Parsing means to recognize the meaning of specific sequences of characters.
+
+** Parsing English
+: The cat hunts the laser pointer.
+: AAAsNNNsVVVVVsAAAsaaaaasNNNNNNNp
+
+- =A= article
+- =s= space
+- =N= noun
+- =V= verb
+- =a= adjective
+- =p= punctuation
+
+** Parsing Hack Assembly
+: A=M+1
+: DdCCC
+
+- =D= destination
+- =d= destination punctuation
+- =C= comp
+** Parsing Hack Assembly
+: !D;JMP
+: CCjJJJ
+
+- =C= comp
+- =j= jump punctuation
+- =J= jump
+
+** Parsing Hack Assembly
+: D=M+1;JEQ
+: DdCCCjJJJ
+
+- =D= destination
+- =d= destination punctuation
+- =C= comp
+- =j= jump punctuation
+- =J= jump
+
+** Key Parsing Concept
+Match the *largest* possible token ("greedy" matching)
+
+See also: regular expressions
+** Implementation Ideas
+- split text at delimiters
+- recognize token types based on position
+* Hack Assembly Code
+#+begin_src asm
+// Computes R0 = 2 + 3  (R0 refers to RAM[0])
+
+@2
+D=A
+@3
+D=D+A
+@0
+M=D
+#+end_src
+* Assembly Syntax Overview
+- A instruction (opcode =0=)
+- C instruction (opcode =1=, but use =111=)
+- labels
+* C instruction parts
+- comp
+- dest (optional)
+- jump (optional)
+
+#+REVEAL: split
+NOTE: even though dest and jump are optional, they still appear in the output (like =000=)
+** C instruction hints
+First, split the C instruction into its separate parts:
+=AD=M+1;JLT= \rarr =dest: AD=, =comp: M+1=, =jump: JLT=
+
+Then, look up the parts from their respective tables (in lecture slides)
+
+** C instruction hints
+How will you /split/ the C instruction into =comp=, =dest=, =jump=?
+- what character must be present when there is a =jump=?
+- what character must be present when there is a =dest=?
+- use =str.split= and list indexing (=lst[-1]=)
+- or use destructuring assignment (=a,b = two_element_list=)
+
+* A instructions
+- =@= followed by =value=
+- =value= can be either:
+  + a numeric literal
+  + a symbol
+** numeric A instruction
+Can be directly converted to 16-bit binary
+** symbolic A instruction
+Look up its value from a symbol table, then convert to binary
+
+* Symbols
+can be either:
+- labels
+- variables
+
+** Symbol Table
+Hint: use a =dict= to store symbols with their value
+
+| symbol | value | meaning     |
+|--------+-------+-------------|
+| SCREEN | 16384 | RAM address |
+| R3     |     3 | RAM address |
+| LOOP   |    16 | ROM address |
+| sum    |    16 | RAM address |
+| END    |    87 | ROM address |
+** Symbol Table
+Key idea:
+1. initialize with built-in symbols (R0, R1, SCREEN, ...)
+2. add labels from assembly file
+3. add variables from assembly file
+** Two-Pass Assembler
+After initializing the symbol table:
+1. scan each line of the file, looking for labels
+   - add the label to the symbol table
+   - its value is the address of the next *instruction*
+2. scan again, looking for variables
+   - when you find a new variable, add it to the table
+   - the first variable's value is 16, next is 17, then 18, 19, ...
+   - if you see a variable /again/ ignore it
+* Code Generation
+- translate C instructions into 16-bit binary (=111= followed by 13 bits)
+- translate A instructions into 16-bit binary
+- the value of the A instruction is =0= followed by 15 bits of =value=
+  (=value= is what you stored in the symbol table earlier)
