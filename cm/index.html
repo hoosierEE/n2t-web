@@ -1,34 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang='en-US'>
   <head>
+    <meta charset='utf-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <meta name='description' content='web-based editor for nand2tetris HDL'>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <link rel='stylesheet' href='codemirror-5.65.0/lib/codemirror.css'>
     <link rel='stylesheet' href='codemirror-5.65.0/theme/nord.css'>
-    <link rel="icon" href="/images/favicon.ico" sizes="any">
-    <!-- <link rel="icon" href="/images/icon.svg" type="image/svg+xml"> -->
+    <link rel='stylesheet' href='codemirror-5.65.0/theme/eclipse.css'>
+    <link rel='stylesheet' href='codemirror-5.65.0/addon/lint/lint.css'>
+    <title>HDL Online</title>
+    <link rel="canonical" href="alexshroyer.com/hdl/index.html">
     <style type='text/css'>
-      body{color:#eee;background-color:#555;font-family:sans-serif}
-      a{color:#79f}
+      a{color:#09e}
+      body{color:#555;background-color:#eee;font-family:sans-serif;max-width:60em;margin:auto;padding:1em}
       h1{text-align:center}
+      /* .n2t_prototype{color:#78c} */
+      .n2t_proto_comment{color:#999}
+
+      @media (prefers-color-scheme: dark) {
+        a{color:#7cf}
+        body{color:#eee;background-color:#555;font-family:sans-serif;max-width:60em;margin:auto;padding:1em}
+        h1{text-align:center}
+        /* .n2t_prototype{color:#78c} */
+        .n2t_proto_comment{color:#999}
+      }
     </style>
   </head>
   <body>
-    <header>
-      <h1>HDL<em>online</em></h1>
-    </header>
+    <header><h1>HDL<em>online</em></h1></header>
     <main>
       <textarea id='ta'></textarea>
-      <a id='save'>download this code as a Filename.hdl file</a>
+      <button id='changeTheme'>change theme</button>
+      <a id='save'>download .hdl file</a>
     </main>
     <footer>
-      <h2>Prototypes</h2><div id='prototypes'></div>
       <h2>Resources</h2>
       <ul>
         <li><a href='https://nand2tetris.org'>Nand2Tetris</a></li>
         <li><a href='https://phoenix.goucher.edu/~kelliher/f2015/cs220/hdlSurvivalGuide.pdf'>HDL Survival Guide</a></li>
       </ul>
+      <h2>Prototypes</h2><div id='prototypes'></div>
     </footer>
   </body>
   <script src="codemirror-5.65.0/lib/codemirror.js"></script>
+  <script src="codemirror-5.65.0/addon/lint/lint.js"></script>
   <script src='cm-simple.js'></script>
   <script src='main.js'></script>
   <script src='prototypes.js'></script>

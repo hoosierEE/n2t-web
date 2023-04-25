@@ -37,5 +37,9 @@ ROM32K(address= ,out= ); /* Instruction memory of the Hack platform (ROM, built-
 Register(in= ,load= ,out= ); /* 16-bit register */
 Screen(in= ,load= ,address= ,out= ); /* Screen memory map (built-in) */
 Xor(a= ,b= ,out= ); /* Xor gate */
-`.split('\n').forEach(x=>P.innerHTML+=`<div>${x}</div>`)
-})
+`.split('\n').filter(_=>_).forEach(x=>{
+  let [p,c]=x.split(';')
+  P.innerHTML+=`<div>
+  <span class="n2t_prototype">${p};</span><span class="n2t_proto_comment">${c}</span>
+</div>`;
+})})

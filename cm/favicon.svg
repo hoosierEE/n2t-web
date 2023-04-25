@@ -1,0 +1,21 @@
+<svg width="64" height="64" xmlns="http://www.w3.org/2000/svg">
+ <defs>
+  <linearGradient id="svg_6" x1="0" y1="0" x2="1" y2="0">
+   <stop stop-color="#ff7f00" stop-opacity="0.98828" offset="0.14453"/>
+   <stop stop-color="#bb7cff" stop-opacity="0.99219" offset="1"/>
+  </linearGradient>
+ </defs>
+ <g>
+  <title>Layer 1</title>
+  <rect fill="url(#svg_6)" x="-4" y="-4" width="73" height="71" id="svg_7" stroke="#000"/>
+  <g id="svg_5">
+   <g id="svg_4">
+    <text fill="#000000" stroke="#000" stroke-width="0" x="16.52476" y="43.26906" id="svg_1" font-size="34" font-family="Noto Sans JP" text-anchor="start" xml:space="preserve">D</text>
+    <text fill="#000000" stroke="#000" stroke-width="0" x="37.52476" y="37.34608" id="svg_2" font-size="22" font-family="Noto Sans JP" text-anchor="start" xml:space="preserve">o</text>
+   </g>
+   <line stroke="#000" id="svg_3" y2="32" x2="62.52599" y1="32" x1="49.36823" fill="none"/>
+   <line stroke="#000" id="svg_8" y2="34.63155" x2="18.57909" y1="34.63155" x1="1.47401" fill="none"/>
+   <line stroke="#000" id="svg_10" y2="29.36845" x2="18.57909" y1="29.36845" x1="1.47401" fill="none"/>
+  </g>
+ </g>
+</svg>
