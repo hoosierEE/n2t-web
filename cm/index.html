@@ -12,23 +12,24 @@
     <title>HDL Online</title>
     <link rel="canonical" href="alexshroyer.com/hdl/index.html">
     <style type='text/css'>
-      a{color:#09e}
-      body{color:#555;background-color:#eee;font-family:sans-serif;max-width:60em;margin:auto;padding:1em}
+      :root{--nt-link:#09e; --nt-color:#555; --nt-background:#eee; --nt-comment:#777;}
+      a{color:var(--nt-link)}
+      body{color:var(--nt-color);background-color:var(--nt-background);font-family:sans-serif;max-width:60em;margin:auto;padding:1em}
       h1{text-align:center}
-      /* .n2t_prototype{color:#78c} */
-      .n2t_proto_comment{color:#999}
-
+      .container{display:grid; grid-template-columns:5em 9fr 7fr; grid-row-gap:.4em; place-items:stretch;}
+      .heading{font-size:larger;border-bottom:1px solid var(--nt-color);}
+      .n2t_proto_comment{color:var(--nt-comment)}
       @media (prefers-color-scheme: dark) {
-        a{color:#7cf}
-        body{color:#eee;background-color:#555;font-family:sans-serif;max-width:60em;margin:auto;padding:1em}
+        :root{--nt-link:#7cf; --nt-color:#eee; --nt-background:#555; --nt-comment:#aaa}
+        a{color:var(--nt-link)}
+        body{color:var(--nt-color);background-color:var(--nt-background);font-family:sans-serif;max-width:60em;margin:auto;padding:1em}
         h1{text-align:center}
-        /* .n2t_prototype{color:#78c} */
-        .n2t_proto_comment{color:#999}
+        .n2t_proto_comment{color:var(--nt-comment)}
       }
     </style>
   </head>
   <body>
-    <header><h1>HDL<em>online</em></h1></header>
+    <header><h1>HDL <em>online</em></h1></header>
     <main>
       <textarea id='ta'></textarea>
       <button id='changeTheme'>change theme</button>
@@ -40,7 +41,7 @@
         <li><a href='https://nand2tetris.org'>Nand2Tetris</a></li>
         <li><a href='https://phoenix.goucher.edu/~kelliher/f2015/cs220/hdlSurvivalGuide.pdf'>HDL Survival Guide</a></li>
       </ul>
-      <h2>Prototypes</h2><div id='prototypes'></div>
+      <div class='container' id='prototypes'></div>
     </footer>
   </body>
   <script src="codemirror-5.65.0/lib/codemirror.js"></script>
